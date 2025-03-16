@@ -29,6 +29,8 @@
     <!-- HALAMAN PETA -->
     @yield('scripts')
 
+    @include('components.toast')
+
 </body>
 </html>
 
