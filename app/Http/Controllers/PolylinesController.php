@@ -59,7 +59,7 @@ class PolylinesController extends Controller
         }
 
         // redirect to map
-        return redirect()->route('map')->with('success', 'Point has been added');
+        return redirect()->route('map')->with('success', 'Polyline has been added');
 
     }
 

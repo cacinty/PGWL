@@ -57,7 +57,7 @@ class PolygonsController extends Controller
         }
 
         // redirect to map
-        return redirect()->route('map')->with('success', 'Point has been added');
+        return redirect()->route('map')->with('success', 'Polygon has been added');
     }
 
     /**

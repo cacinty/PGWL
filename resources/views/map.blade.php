@@ -210,5 +210,104 @@
 
             drawnItems.addLayer(layer);
         });
+
+        /* GeoJSON Point */
+			var point = L.geoJson(null, {
+				onEachFeature: function (feature, layer) {
+					var popupContent = "Nama: " + feature.properties.name + "<br>" +
+						"Deskripsi: " + feature.properties.description+ "<br>" +
+                        "Dibuat:"+ feature.properties.created_at;
+					layer.on({
+						click: function (e) {
+							point.bindPopup(popupContent);
+						},
+						mouseover: function (e) {
+							point.bindTooltip(feature.properties.name);
+						},
+					});
+				},
+			});
+			$.getJSON("{{route('api.points')}}", function (data) {
+				point.addData(data);
+				map.addLayer(point);
+			});
+
+
+            /* GeoJSON polylines */
+			var polyline = L.geoJson(null, {
+                /* Style polyline */
+				style: function (feature) {
+					return {
+						color: "#000080",
+						weight: 3,
+						opacity: 1,
+					};
+				},
+				onEachFeature: function (feature, layer) {
+					var popupContent = "Nama: " + feature.properties.name + "<br>" +
+						"Deskripsi: " + feature.properties.description + "<br>" +
+                        "Panjang (m): " + feature.properties.length_m.toFixed(2) + "<br>" +
+                        "Panjang (km): " + feature.properties.length_km.toFixed(2) + "<br>" +
+                        "Dibuat:"+ feature.properties.created_at;
+					layer.on({
+						click: function (e) {
+							polyline.bindPopup(popupContent);
+						},
+						mouseover: function (e) {
+							polyline.bindTooltip(feature.properties.name);
+						},
+					});
+				},
+			});
+			$.getJSON("{{route('api.polylines')}}", function (data) {
+				polyline.addData(data);
+				map.addLayer(polyline);
+			});
+
+            /* GeoJSON polygons */
+			var polygons = L.geoJson(null, {
+                /* Style polygon */
+				style: function (feature) {
+					return {
+						color: "#FF1493",
+						fillColor: "#FFB6C1",
+						weight: 2,
+						opacity: 1,
+						fillOpacity: 0.2,
+					};
+				},
+				onEachFeature: function (feature, layer) {
+					var popupContent = "Nama: " + feature.properties.name + "<br>" +
+						"Deskripsi: " + feature.properties.description + "<br>" +
+                        "Area (m): " + feature.properties.area_m2.toFixed(2) + "<br>" +
+                        "Area (km): " + feature.properties.area_km2.toFixed(2) + "<br>" +
+                        "Dibuat:"+ feature.properties.created_at;
+					layer.on({
+						click: function (e) {
+							polygons.bindPopup(popupContent);
+						},
+						mouseover: function (e) {
+							polygons.bindTooltip(feature.properties.name);
+						},
+					});
+				},
+			});
+			$.getJSON("{{route('api.polygons')}}", function (data) {
+				polygons.addData(data);
+				map.addLayer(polygons);
+			});
+
+            // Control Layer
+        var overlayMaps = {
+            "Points": point,
+            "Polylines": polyline,
+            "Polygons": polygons
+        };
+
+        var controlLayer = L.control.layers(null, overlayMaps, {
+            collapsed: false
+        });
+
+        controlLayer.addTo(map);
     </script>
 @endsection
