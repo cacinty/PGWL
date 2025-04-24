@@ -41,14 +41,31 @@ class PolygonsController extends Controller
                 'name.unique' => 'Name already exists',
                 'description.required'=> 'Description is required',
                 'geom_polygon.required' => 'Geometry polygon is required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2024',
 
             ]
         );
+
+        //Create image directory if not exists
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777);
+        }
+
+        //get image file
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_polygon." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+        } else {
+            $name_image = null;
+        }
+
 
         $data = [
             'geom' => $request->geom_polygon,
             'name' => $request->name,
             'description' => $request->description,
+            'image' => $name_image,
         ];
 
         // create data
