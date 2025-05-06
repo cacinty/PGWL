@@ -50,7 +50,8 @@
                             <label for="image" class="form-label">Photo</label>
                             <input type="file"class="form-control" id="image_point" name="image"
                                 onchange="document.getElementById('preview-image-point').src = window.URL.createObjectURL(this.files[0])">
-                                <img src="" alt="" id="preview-image-point" class="img-thumbnail" width="400">
+                            <img src="" alt="" id="preview-image-point" class="img-thumbnail"
+                                width="400">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -93,7 +94,8 @@
                             <label for="image" class="form-label">Photo</label>
                             <input type="file"class="form-control" id="image_polyline" name="image"
                                 onchange="document.getElementById('preview-image-polyline').src = window.URL.createObjectURL(this.files[0])">
-                                <img src="" alt="" id="preview-image-polyline" class="img-thumbnail" width="400">
+                            <img src="" alt="" id="preview-image-polyline" class="img-thumbnail"
+                                width="400">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -137,7 +139,8 @@
                             <label for="image" class="form-label">Photo</label>
                             <input type="file"class="form-control" id="image_polygon" name="image"
                                 onchange="document.getElementById('preview-image-polygon').src = window.URL.createObjectURL(this.files[0])">
-                                <img src="" alt="" id="preview-image-polygon" class="img-thumbnail" width="400">
+                            <img src="" alt="" id="preview-image-polygon" class="img-thumbnail"
+                                width="400">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -233,13 +236,21 @@
             drawnItems.addLayer(layer);
         });
 
-        /* GeoJSON Point */
+        // GeoJSON Points
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
+                var routedelete = "{{ route('points.destroy', ':id') }}";
+                routedelete = routedelete.replace(':id', feature.properties.id);
+
                 var popupContent = "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
-                    "Dibuat:" + feature.properties.created_at+ "<br>" +
-                    "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='' width='200px' height='200px'>";
+                    "Dibuat: " + feature.properties.created_at + "<br>" +
+                    "<img src='{{ asset('storage/images/') }}/" + feature.properties.image +
+                    "' width='250' alt=''>" + "<br>" +
+                    "<form method='POST' action='" + routedelete + "'>" +
+                    '@csrf' + '@method('DELETE')' +
+                    "<button type='submit' class='btn btn-sm btn-danger' onclick='return confirm(`Yakin akan dihapus?`)'><i class='fa-solid fa-trash-can'></i></button>" +
+                    "</form>";
                 layer.on({
                     click: function(e) {
                         point.bindPopup(popupContent);
@@ -267,12 +278,21 @@
                 };
             },
             onEachFeature: function(feature, layer) {
+                var routedelete = "{{ route('polylines.destroy', ':id') }}";
+                routedelete = routedelete.replace(':id', feature.properties.id);
+
                 var popupContent = "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
                     "Panjang (m): " + feature.properties.length_m.toFixed(2) + "<br>" +
                     "Panjang (km): " + feature.properties.length_km.toFixed(2) + "<br>" +
-                    "Dibuat:" + feature.properties.created_at +"<br>" +
-                    "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='' width='300px' height='200px'>";;
+                    "Dibuat:" + feature.properties.created_at + "<br>" +
+                    "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
+                    "' alt='' width='300px' height='200px'>" + "<br>" +
+                    "<form method='POST' action='" + routedelete + "'>" +
+                    '@csrf' + '@method('DELETE')' +
+                    "<button type='submit' class='btn btn-sm btn-danger' onclick='return confirm(`Yakin akan dihapus?`)'><i class='fa-solid fa-trash-can'></i></button>" +
+                    "</form>";
+
                 layer.on({
                     click: function(e) {
                         polyline.bindPopup(popupContent);
@@ -301,12 +321,20 @@
                 };
             },
             onEachFeature: function(feature, layer) {
+                var routedelete = "{{ route('polygons.destroy', ':id') }}";
+                routedelete = routedelete.replace(':id', feature.properties.id);
+
                 var popupContent = "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
                     "Area (m): " + feature.properties.area_m2.toFixed(2) + "<br>" +
                     "Area (km): " + feature.properties.area_km2.toFixed(2) + "<br>" +
-                    "Dibuat:" + feature.properties.created_at +"<br>" +
-                    "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='' width='300px' height='200px'>";
+                    "Dibuat:" + feature.properties.created_at + "<br>" +
+                    "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
+                    "' alt='' width='300px' height='200px'>" + "<br>" +
+                    "<form method='POST' action='" + routedelete + "'>" +
+                    '@csrf' + '@method('DELETE')' +
+                    "<button type='submit' class='btn btn-sm btn-danger' onclick='return confirm(`Yakin akan dihapus?`)'><i class='fa-solid fa-trash-can'></i></button>" +
+                    "</form>";
                 layer.on({
                     click: function(e) {
                         polygons.bindPopup(popupContent);
