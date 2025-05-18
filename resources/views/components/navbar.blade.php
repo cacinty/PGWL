@@ -17,23 +17,21 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        Dropdown
+                        <i class="fa-solid fa-database"></i>Data
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                        <li><a class="dropdown-item" href="{{route('api.points')}}"
+                        target="_blank">Points</a></li>
+                        <li><a class="dropdown-item" href="{{route('api.polygons')}}"
+                        target="_blank">Polyline</a></li>
+                        <li><a class="dropdown-item" href="{{route('api.polygons')}}"
+                        target="_blank">Polygons</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled">Disabled</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>
