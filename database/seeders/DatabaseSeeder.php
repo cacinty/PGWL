@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'cacacintiyabela@gamil.com',
             'password' => bcrypt('admin123'),
         ]);
-    
+
     }
 }
